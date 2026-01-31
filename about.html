@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>À propos · Nyriaa</title>
+    <link rel="icon" href="favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --cream: #FAF8F3;
+            --charcoal: #1A1A1A;
+            --lavender: #A494C4;
+            --sage: #81A684;
+            --sand: #D4C5B9;
+            --white: #FFFFFF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--cream);
+            color: var(--charcoal);
+        }
+
+        /* NAVIGATION */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 2rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: var(--cream);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            font-weight: 300;
+            letter-spacing: 0.3em;
+            color: var(--charcoal);
+            text-decoration: none;
+        }
+
+        .back-btn {
+            background: var(--lavender);
+            color: var(--white);
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(164, 148, 196, 0.3);
+        }
+
+        /* CONTAINER */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 12rem 2rem 8rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+
+        .header h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 5rem;
+            font-weight: 300;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .header p {
+            font-size: 1.3rem;
+            color: #6A6A6A;
+            line-height: 1.8;
+        }
+
+        /* CONTENT SECTIONS */
+        .section {
+            background: var(--white);
+            padding: 4rem;
+            border-radius: 25px;
+            margin-bottom: 3rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--lavender);
+        }
+
+        .section p {
+            line-height: 1.9;
+            color: #4A4A4A;
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+        }
+
+        .section ul {
+            margin-left: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .section li {
+            line-height: 1.9;
+            color: #4A4A4A;
+            margin-bottom: 1rem;
+        }
+
+        /* HIGHLIGHT BOX */
+        .highlight {
+            background: linear-gradient(135deg, rgba(164, 148, 196, 0.1), rgba(197, 184, 217, 0.1));
+            padding: 2rem;
+            border-radius: 15px;
+            border-left: 4px solid var(--lavender);
+            margin: 2rem 0;
+        }
+
+        .highlight p {
+            margin-bottom: 0;
+        }
+
+        /* CTA BUTTONS */
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 3rem;
+            justify-content: center;
+        }
+
+        .cta-link {
+            background: var(--lavender);
+            color: var(--white);
+            padding: 1.2rem 3rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            display: inline-block;
+        }
+
+        .cta-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(164, 148, 196, 0.4);
+        }
+
+        .cta-link.secondary {
+            background: transparent;
+            color: var(--charcoal);
+            border: 2px solid var(--charcoal);
+        }
+
+        .cta-link.secondary:hover {
+            background: var(--charcoal);
+            color: var(--cream);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 968px) {
+            nav {
+                padding: 1.5rem 2rem;
+            }
+
+            .container {
+                padding: 10rem 1.5rem 5rem;
+            }
+
+            .header h1 {
+                font-size: 3rem;
+            }
+
+            .section {
+                padding: 2.5rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <a href="index.html" class="logo">NYRIAA</a>
+        <a href="index.html" class="back-btn">← Retour</a>
+    </nav>
+
+    <!-- Container -->
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>Qu'est-ce que Nyriaa ?</h1>
+            <p>Une plateforme dédiée à la passion de la mode et au partage d'inspiration</p>
+        </div>
+
+        <!-- What is Nyriaa -->
+        <div class="section">
+            <h2>✨ Notre mission</h2>
+            <p>
+                Nyriaa est une plateforme collaborative qui réunit les passionnées de mode autour d'une idée simple : 
+                rendre la mode accessible et inspirante pour toutes.
+            </p>
+            <p>
+                Nous croyons que chaque tenue raconte une histoire et que chaque créatrice mérite d'être mise en valeur. 
+                C'est pourquoi nous avons créé un espace où l'inspiration rencontre la praticité.
+            </p>
+            <div class="highlight">
+                <p>
+                    💜 Chaque look partagé sur Nyriaa est accompagné de toutes ses références produits, 
+                    permettant à notre communauté de recréer facilement les tenues qu'elles aiment.
+                </p>
+            </div>
+        </div>
+
+        <!-- The Concept -->
+        <div class="section">
+            <h2>💡 Le concept</h2>
+            <p>
+                Notre plateforme fonctionne sur trois piliers fondamentaux :
+            </p>
+            <ul>
+                <li><strong>Découverte</strong> — Explorez des centaines de tenues créées par notre communauté de créatrices</li>
+                <li><strong>Références</strong> — Chaque pièce (haut, bas, accessoires) est référencée avec des liens directs</li>
+                <li><strong>Partage</strong> — Devenez créatrice et inspirez à votre tour la communauté</li>
+            </ul>
+            <p>
+                Que vous cherchiez l'inspiration pour une occasion spéciale ou que vous souhaitiez simplement découvrir 
+                de nouvelles tendances, Nyriaa est votre compagnon mode idéal.
+            </p>
+        </div>
+
+        <!-- Community -->
+        <div class="section">
+            <h2>👥 Notre communauté</h2>
+            <p>
+                Nyriaa, c'est avant tout une communauté bienveillante de passionnées de mode :
+            </p>
+            <ul>
+                <li><strong>Créatrices</strong> — Partagent leurs tenues favorites et inspirent la communauté</li>
+                <li><strong>Partenaires</strong> — Collaborent étroitement avec Nyriaa pour créer du contenu exclusif</li>
+                <li><strong>Utilisatrices</strong> — Découvrent, s'inspirent et recréent les looks</li>
+            </ul>
+            <div class="highlight">
+                <p>
+                    Rejoindre Nyriaa, c'est faire partie d'un mouvement qui célèbre la diversité des styles 
+                    et l'expression personnelle à travers la mode.
+                </p>
+            </div>
+        </div>
+
+        <!-- Values -->
+        <div class="section">
+            <h2>💎 Nos valeurs</h2>
+            <p><strong>Accessibilité</strong> — La mode doit être accessible à toutes, sans distinction</p>
+            <p><strong>Authenticité</strong> — Nous valorisons les vraies personnes et les vrais styles</p>
+            <p><strong>Respect</strong> — L'anonymat est possible, le consentement est primordial</p>
+            <p><strong>Inspiration</strong> — Nous créons un espace positif d'échange et de créativité</p>
+        </div>
+
+        <!-- CTA -->
+        <div class="section" style="text-align: center;">
+            <h2>Prête à nous rejoindre ?</h2>
+            <p>
+                Que vous souhaitiez simplement explorer nos tenues ou devenir créatrice, 
+                nous sommes ravis de vous accueillir dans la communauté Nyriaa.
+            </p>
+            <div class="cta-buttons">
+                <a href="liste.html" class="cta-link">Découvrir les tenues</a>
+                <a href="devenir-creatrice.html" class="cta-link secondary">Devenir créatrice</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

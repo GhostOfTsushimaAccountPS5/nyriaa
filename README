@@ -1,0 +1,165 @@
+# NYRIAA - Site Moderne 🌸
+
+Bienvenue sur votre nouveau site Nyriaa ! Voici tout ce que vous devez savoir.
+
+## 📁 Structure du site
+
+```
+nyriaa-site/
+├── index.html              # Page d'accueil
+├── liste.html              # Galerie de toutes les tenues
+├── tenue.html              # Page détail d'une tenue
+├── devenir-creatrice.html  # Formulaire créatrice/partenaire
+├── about.html              # À propos de Nyriaa
+├── mentions-legales.html   # Mentions légales
+├── confidentialite.html    # Politique de confidentialité
+├── conditions.html         # Conditions d'utilisation
+├── outfits.js              # Base de données des tenues
+├── nyricon.png             # Votre favicon
+└── images/                 # Dossier pour toutes vos images
+    ├── hero/               # Images de la page d'accueil (3 photos flottantes)
+    │   ├── outfit1.jpg
+    │   ├── outfit2.jpg
+    │   └── outfit3.jpg
+    ├── liste-outfit/       # Images miniatures des tenues
+    │   ├── party-1.png
+    │   ├── y2kblack-1.png
+    │   └── ...
+    └── outfits-details/    # Détails de chaque tenue
+        ├── party-1/
+        │   ├── haut-1.png
+        │   ├── botte-1.png
+        │   └── ...
+        └── ...
+```
+
+## 🎨 Palette de couleurs
+
+- **Crème** : #FAF8F3 (fond principal)
+- **Charcoal** : #1A1A1A (texte)
+- **Lavande** : #A494C4 (couleur principale)
+- **Sage** : #81A684 (accent)
+- **Blanc** : #FFFFFF
+
+## ✨ Fonctionnalités principales
+
+### 1. Page d'accueil (index.html)
+- Hero section avec 3 images flottantes
+- Section "Comment ça marche"
+- Features de la plateforme
+- Liens vers réseaux sociaux
+- Appel à l'action pour devenir créatrice
+
+### 2. Galerie de tenues (liste.html)
+- Grille responsive des tenues
+- Système de badges (Fondatrice/Partenaire/Créatrice)
+- Animation au scroll
+- Clic vers page détail
+
+### 3. Page détail (tenue.html)
+- Affichage de tous les produits de la tenue
+- Popup Amazon pour FR/BE
+- Liens directs vers les boutiques
+- Design élégant et épuré
+
+### 4. Formulaire créatrice/partenaire (devenir-creatrice.html)
+- Choix entre Créatrice ou Partenaire
+- Upload de photos (max 4)
+- Choix anonymat/public
+- Validation Netlify Forms
+
+### 5. Pages légales
+- Mentions légales complètes
+- Politique de confidentialité (RGPD)
+- Conditions d'utilisation détaillées
+
+## 🔧 Comment ajouter vos images
+
+### Images de la page d'accueil
+Remplacez les 3 images dans `images/hero/` :
+- `outfit1.jpg` (300x400px recommandé)
+- `outfit2.jpg` (250x350px recommandé)
+- `outfit3.jpg` (200x280px recommandé)
+
+### Images des tenues
+1. **Miniature** : Dans `images/liste-outfit/`
+   - Format : `nom-tenue.png`
+   - Exemple : `party-1.png`
+
+2. **Détails** : Dans `images/outfits-details/nom-tenue/`
+   - Format : `piece-numero.png`
+   - Exemple : `party-1/haut-1.png`, `party-1/botte-1.png`
+
+## 📝 Comment ajouter une nouvelle tenue
+
+Ouvrez `outfits.js` et ajoutez un nouvel objet dans le tableau :
+
+```javascript
+{
+  id: "ma-tenue-1",
+  title: "💜 MA TENUE · OUTFIT 💜",
+  image: "images/liste-outfit/ma-tenue-1.png",
+  author: "@monpseudo",
+  badge: "creator", // ou "founder" ou "partner"
+
+  items: [
+    {
+      name: "Nom du produit",
+      brand: "Marque",
+      image: "haut-1.png",
+      link: "https://lien-direct-vers-produit.com"
+    },
+    // OU pour Amazon :
+    {
+      name: "Produit Amazon",
+      brand: "Amazon",
+      image: "sac-1.png",
+      affiliate: {
+        fr: "https://www.amazon.fr/...",
+        be: "https://www.amazon.com.be/..."
+      }
+    }
+  ]
+}
+```
+
+## 🚀 Déploiement sur Netlify
+
+1. Créez un compte sur [Netlify](https://www.netlify.com)
+2. Connectez votre repository GitHub
+3. Configurez Netlify Forms dans les paramètres
+4. Le site sera automatiquement déployé !
+
+## 📧 Configuration des formulaires
+
+Les formulaires utilisent Netlify Forms. Assurez-vous que :
+- Vous avez `data-netlify="true"` dans vos formulaires
+- Vous avez configuré les notifications email dans Netlify
+
+## 🎯 Prochaines étapes recommandées
+
+1. ✅ Remplacer les 3 images de la page d'accueil
+2. ✅ Ajouter votre favicon `nyricon.png`
+3. ✅ Vérifier/ajouter vos tenues dans `outfits.js`
+4. ✅ Tester tous les liens
+5. ✅ Configurer Netlify Forms
+6. ✅ Lancer le site !
+
+## 💡 Conseils
+
+- **Images** : Utilisez des images optimisées (WebP ou JPG compressé)
+- **Performance** : Gardez les images sous 500KB chacune
+- **Responsive** : Le design s'adapte automatiquement au mobile
+- **SEO** : Ajoutez des meta descriptions dans les pages
+
+## 🆘 Besoin d'aide ?
+
+Si vous avez des questions ou besoin de modifications :
+- Contactez-moi pour des ajustements
+- Documentez vos changements dans outfits.js
+- Testez toujours en local avant de déployer
+
+---
+
+**Créé avec 💜 pour Nyriaa**
+Design moderne, élégant et professionnel - Janvier 2026

@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Références · Nyriaa</title>
+    <link rel="icon" href="favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --cream: #FAF8F3;
+            --charcoal: #1A1A1A;
+            --lavender: #A494C4;
+            --sage: #81A684;
+            --sand: #D4C5B9;
+            --white: #FFFFFF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--cream);
+            color: var(--charcoal);
+            min-height: 100vh;
+        }
+
+        /* NAVIGATION */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 2rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: var(--cream);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            font-weight: 300;
+            letter-spacing: 0.3em;
+            color: var(--charcoal);
+            text-decoration: none;
+        }
+
+        .back-btn {
+            background: var(--lavender);
+            color: var(--white);
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(164, 148, 196, 0.3);
+        }
+
+        /* HEADER */
+        .header {
+            padding: 12rem 4rem 4rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 4rem;
+            font-weight: 300;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        /* CONTAINER */
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 0 2rem 8rem;
+        }
+
+        /* CARD */
+        .item-card {
+            background: var(--white);
+            border-radius: 25px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+            color: var(--charcoal);
+            opacity: 0;
+            animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .item-card:nth-child(1) { animation-delay: 0.1s; }
+        .item-card:nth-child(2) { animation-delay: 0.2s; }
+        .item-card:nth-child(3) { animation-delay: 0.3s; }
+        .item-card:nth-child(4) { animation-delay: 0.4s; }
+        .item-card:nth-child(5) { animation-delay: 0.5s; }
+        .item-card:nth-child(6) { animation-delay: 0.6s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .item-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(164, 148, 196, 0.25);
+        }
+
+        .item-image {
+            width: 100%;
+            height: 400px;
+            background: #F5F5F5;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .item-image::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image: var(--img);
+            background-size: cover;
+            background-position: center;
+            filter: blur(20px);
+            transform: scale(1.1);
+            opacity: 0.2;
+        }
+
+        .item-image img {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            z-index: 2;
+            transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .item-card:hover .item-image img {
+            transform: scale(1.05);
+        }
+
+        .item-info {
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .item-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .item-brand {
+            color: #6A6A6A;
+            font-size: 0.95rem;
+        }
+
+        /* POPUP AMAZON */
+        .popup-bg {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .popup {
+            background: var(--white);
+            padding: 3rem;
+            border-radius: 30px;
+            width: 90%;
+            max-width: 450px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+            animation: scaleIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .popup h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .popup p {
+            color: #6A6A6A;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .popup-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .popup-btn {
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            border: none;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .btn-fr {
+            background: var(--lavender);
+            color: var(--white);
+        }
+
+        .btn-fr:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(164, 148, 196, 0.4);
+        }
+
+        .btn-be {
+            background: var(--charcoal);
+            color: var(--white);
+        }
+
+        .btn-be:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(26, 26, 26, 0.3);
+        }
+
+        .close-popup {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #6A6A6A;
+            transition: color 0.3s;
+        }
+
+        .close-popup:hover {
+            color: var(--charcoal);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 968px) {
+            nav {
+                padding: 1.5rem 2rem;
+            }
+
+            .header {
+                padding: 10rem 2rem 3rem;
+            }
+
+            .header h1 {
+                font-size: 2.5rem;
+            }
+
+            .container {
+                padding: 0 1.5rem 5rem;
+            }
+
+            .popup {
+                padding: 2rem;
+            }
+
+            .popup-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <a href="index.html" class="logo">NYRIAA</a>
+        <a href="liste.html" class="back-btn">← Retour</a>
+    </nav>
+
+    <!-- Header -->
+    <div class="header">
+        <h1 id="title">OUTFIT</h1>
+    </div>
+
+    <!-- Items Container -->
+    <div class="container" id="items"></div>
+
+    <!-- Popup Amazon -->
+    <div class="popup-bg" id="popup">
+        <div class="popup">
+            <button class="close-popup" onclick="closePopup()">✕</button>
+            <h3>D'où venez-vous ?</h3>
+            <p>Cette information nous permettra de vous rediriger vers le bon site Amazon.</p>
+            <div class="popup-buttons">
+                <button class="popup-btn btn-fr" onclick="goFR()">🇫🇷 France</button>
+                <button class="popup-btn btn-be" onclick="goBE()">🇧🇪 Belgique</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="outfits.js"></script>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get("id");
+
+        const outfit = outfits.find(o => o.id === id);
+
+        if (!outfit) {
+            window.location.href = "liste.html";
+        }
+
+        document.getElementById("title").innerText = outfit.title;
+
+        const container = document.getElementById("items");
+        let currentAffiliate = null;
+
+        outfit.items.forEach(item => {
+            const card = document.createElement("div");
+            card.className = "item-card";
+
+            const imagePath = `images/outfits-details/${id}/${item.image}`;
+
+            card.innerHTML = `
+                <div class="item-image" style="--img:url('${imagePath}')">
+                    <img src="${imagePath}" alt="${item.name}">
+                </div>
+                <div class="item-info">
+                    <div class="item-name">${item.name}</div>
+                    <div class="item-brand">${item.brand}</div>
+                </div>
+            `;
+
+            // Amazon affiliate -> popup
+            if (item.affiliate) {
+                card.style.cursor = "pointer";
+                card.onclick = () => openPopup(item.affiliate);
+            }
+            // Direct link
+            else if (item.link) {
+                card.style.cursor = "pointer";
+                card.onclick = () => window.open(item.link, "_blank");
+            }
+
+            container.appendChild(card);
+        });
+
+        function openPopup(affiliate) {
+            currentAffiliate = affiliate;
+            document.getElementById("popup").style.display = "flex";
+        }
+
+        function closePopup() {
+            document.getElementById("popup").style.display = "none";
+        }
+
+        function goFR() {
+            if (currentAffiliate && currentAffiliate.fr) {
+                window.open(currentAffiliate.fr, "_blank");
+                closePopup();
+            }
+        }
+
+        function goBE() {
+            if (currentAffiliate && currentAffiliate.be) {
+                window.open(currentAffiliate.be, "_blank");
+                closePopup();
+            }
+        }
+
+        // Close popup when clicking outside
+        document.getElementById("popup").addEventListener("click", function(e) {
+            if (e.target === this) {
+                closePopup();
+            }
+        });
+    </script>
+</body>
+</html>

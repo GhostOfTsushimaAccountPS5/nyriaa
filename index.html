@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nyriaa</title>
+    <link rel="icon" href="favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+    
+    <style>
+        :root {
+            --cream: #FAF8F3;
+            --charcoal: #1A1A1A;
+            --lavender: #A494C4;
+            --sage: #81A684;
+            --sand: #D4C5B9;
+            --white: #FFFFFF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--cream);
+            color: var(--charcoal);
+            overflow-x: hidden;
+        }
+
+        /* NAVIGATION */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 2rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: linear-gradient(180deg, rgba(250, 248, 243, 0.95) 0%, rgba(250, 248, 243, 0) 100%);
+            backdrop-filter: blur(10px);
+            animation: slideDown 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            font-weight: 300;
+            letter-spacing: 0.3em;
+            color: var(--charcoal);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--charcoal);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--lavender);
+            transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .cta-btn {
+            background: var(--charcoal);
+            color: var(--cream);
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(26, 26, 26, 0.2);
+        }
+
+        /* HERO SECTION */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 0 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 600px;
+            z-index: 2;
+            animation: fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1) 0.3s backwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 6rem;
+            font-weight: 300;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-accent {
+            color: var(--lavender);
+            font-style: italic;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #4A4A4A;
+            margin-bottom: 2.5rem;
+            animation: fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1) 0.5s backwards;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            animation: fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1) 0.7s backwards;
+        }
+
+        .primary-btn {
+            background: var(--lavender);
+            color: var(--white);
+            padding: 1.2rem 3rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            letter-spacing: 0.05em;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(164, 148, 196, 0.4);
+        }
+
+        .secondary-btn {
+            background: transparent;
+            color: var(--charcoal);
+            padding: 1.2rem 3rem;
+            border: 2px solid var(--charcoal);
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            letter-spacing: 0.05em;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .secondary-btn:hover {
+            background: var(--charcoal);
+            color: var(--cream);
+            transform: translateY(-3px);
+        }
+
+        /* FLOATING IMAGES */
+        .floating-images {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50%;
+            height: 80vh;
+        }
+
+        .float-img {
+            position: absolute;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        .float-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .float-img:nth-child(1) {
+            width: 300px;
+            height: 400px;
+            top: 10%;
+            right: 15%;
+            animation: fadeInScale 1s cubic-bezier(0.16, 1, 0.3, 1) 0.8s backwards, float 6s ease-in-out infinite 1s;
+        }
+
+        .float-img:nth-child(2) {
+            width: 250px;
+            height: 350px;
+            top: 45%;
+            right: 5%;
+            animation: fadeInScale 1s cubic-bezier(0.16, 1, 0.3, 1) 1s backwards, float 6s ease-in-out infinite 1.5s;
+        }
+
+        .float-img:nth-child(3) {
+            width: 200px;
+            height: 280px;
+            top: 25%;
+            right: 40%;
+            animation: fadeInScale 1s cubic-bezier(0.16, 1, 0.3, 1) 1.2s backwards, float 6s ease-in-out infinite 2s;
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        /* HOW IT WORKS */
+        .how-it-works {
+            padding: 8rem 4rem;
+            background: var(--white);
+        }
+
+        .section-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 4rem;
+            font-weight: 300;
+            text-align: center;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #6A6A6A;
+            margin-bottom: 5rem;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 4rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .step {
+            text-align: center;
+            opacity: 0;
+            animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .step:nth-child(1) { animation-delay: 0.2s; }
+        .step:nth-child(2) { animation-delay: 0.4s; }
+        .step:nth-child(3) { animation-delay: 0.6s; }
+
+        .step-number {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 5rem;
+            font-weight: 300;
+            color: var(--lavender);
+            opacity: 0.3;
+            line-height: 1;
+            margin-bottom: 1rem;
+        }
+
+        .step h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+        }
+
+        .step p {
+            color: #6A6A6A;
+            line-height: 1.8;
+            font-size: 1rem;
+        }
+
+        /* FEATURES */
+        .features {
+            padding: 8rem 4rem;
+            background: linear-gradient(135deg, #FAF8F3 0%, #F5F1E8 100%);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: var(--white);
+            padding: 3rem;
+            border-radius: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            opacity: 0;
+            animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .feature-card:nth-child(1) { animation-delay: 0.3s; }
+        .feature-card:nth-child(2) { animation-delay: 0.5s; }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--sage);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2rem;
+            font-size: 1.8rem;
+        }
+
+        .feature-card h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            font-weight: 400;
+        }
+
+        .feature-card p {
+            color: #6A6A6A;
+            line-height: 1.8;
+            font-size: 1.05rem;
+        }
+
+        /* SOCIAL SECTION */
+        .social-section {
+            padding: 8rem 4rem;
+            background: var(--white);
+            text-align: center;
+        }
+
+        .social-grid {
+            display: flex;
+            justify-content: center;
+            gap: 4rem;
+            margin-top: 4rem;
+            flex-wrap: wrap;
+        }
+
+        .social-card {
+            text-decoration: none;
+            color: var(--charcoal);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .social-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .social-icon {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, var(--lavender), #C5B8D9);
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            box-shadow: 0 15px 40px rgba(164, 148, 196, 0.3);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .social-card:hover .social-icon {
+            box-shadow: 0 25px 60px rgba(164, 148, 196, 0.5);
+        }
+
+        .social-icon i {
+            font-size: 3rem;
+            color: var(--white);
+        }
+
+        .social-handle {
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        /* CTA SECTION */
+        .cta-section {
+            padding: 10rem 4rem;
+            background: var(--charcoal);
+            color: var(--cream);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(164, 148, 196, 0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .cta-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .cta-section h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 5rem;
+            font-weight: 300;
+            margin-bottom: 2rem;
+            letter-spacing: -0.02em;
+        }
+
+        .cta-section p {
+            font-size: 1.3rem;
+            margin-bottom: 3rem;
+            opacity: 0.9;
+        }
+
+        .cta-big-btn {
+            background: var(--lavender);
+            color: var(--white);
+            padding: 1.5rem 4rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .cta-big-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 20px 60px rgba(164, 148, 196, 0.5);
+        }
+
+        /* FOOTER */
+        footer {
+            background: var(--charcoal);
+            color: var(--cream);
+            padding: 4rem;
+            text-align: center;
+            border-top: 1px solid rgba(250, 248, 243, 0.1);
+        }
+
+        .footer-links {
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--cream);
+            text-decoration: none;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+        }
+
+        footer p {
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 968px) {
+            nav {
+                padding: 1.5rem 2rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero {
+                padding: 0 2rem;
+                flex-direction: column;
+                justify-content: center;
+            }
+
+            .hero h1 {
+                font-size: 3.5rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .floating-images {
+                position: relative;
+                width: 100%;
+                height: 400px;
+                margin-top: 3rem;
+            }
+
+            .steps {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-section h2 {
+                font-size: 3rem;
+            }
+
+            .social-grid {
+                gap: 2rem;
+            }
+
+            .hero-slogan {
+                font-size: 1.4rem;
+            }
+
+        }
+
+        .hero-slogan {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 1.9rem !important;
+        font-style: italic;
+        color: var(--charcoal);
+        margin-bottom: 1.5rem;
+        opacity: 0.85;
+        animation: fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1) 0.4s backwards;
+
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">NYRIAA</div>
+        <ul class="nav-links">
+            <li><a href="liste.html">Découvrir</a></li>
+            <li><a href="about.html">À propos</a></li>
+            <li><a href="devenir-creatrice.html">Rejoindre</a></li>
+        </ul>
+        <a href="devenir-creatrice.html" class="cta-btn">Devenir créatrice</a>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Votre style,<br><span class="hero-accent">partagé</span></h1>
+
+<p class="hero-slogan">
+    Pas besoin d'être connu pour être inspirante.
+</p>
+
+<p>
+    Découvrez des milliers de tenues créées par une communauté passionnée.
+    Chaque pièce est référencée pour que vous puissiez recréer le look parfait.
+</p>
+
+<div class="hero-buttons">
+
+                <a href="liste.html" class="primary-btn">Explorer les tenues</a>
+                <a href="devenir-creatrice.html" class="secondary-btn">Devenir créatrice</a>
+            </div>
+        </div>
+        <div class="floating-images">
+            <div class="float-img">
+                <img src="images/hero/automne.png" alt="Outfit 1">
+            </div>
+            <div class="float-img">
+                <img src="images/hero/brownchill.png" alt="Outfit 2">
+            </div>
+            <div class="float-img">
+                <img src="images/hero/greychill.png" alt="Outfit 3">
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works" id="comment">
+        <h2 class="section-title">Comment ça marche</h2>
+        <p class="section-subtitle">Trois étapes simples pour transformer votre façon de découvrir la mode</p>
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">01</div>
+                <h3>Explorez</h3>
+                <p>Parcourez des centaines de tenues inspirantes créées par notre communauté de créatrices passionnées de mode.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">02</div>
+                <h3>Découvrez les références</h3>
+                <p>Chaque pièce (haut, bas, chaussures, accessoires) est référencée avec des liens directs vers les produits.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">03</div>
+                <h3>Créez & Partagez</h3>
+                <p>Devenez créatrice et partagez vos propres outfits avec la communauté pour inspirer d'autres personnes.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features" id="decouvrir">
+        <h2 class="section-title">Pourquoi Nyriaa ?</h2>
+        <p class="section-subtitle">Une plateforme pensée pour les passionnées de mode</p>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">👗</div>
+                <h3>Références complètes</h3>
+                <p>Chaque tenue est accompagnée de toutes les références : du haut aux accessoires, retrouvez exactement les pièces que vous aimez avec des liens directs vers les boutiques.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">✨</div>
+                <h3>Communauté créative</h3>
+                <p>Rejoignez une communauté de créatrices passionnées. Partagez vos looks, inspirez-vous mutuellement et créez des tendances ensemble.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Section -->
+    <section class="social-section">
+        <h2 class="section-title">Suivez-nous</h2>
+        <p class="section-subtitle">Rejoignez notre communauté sur les réseaux sociaux</p>
+        <div class="social-grid">
+            <a href="https://www.tiktok.com/@nyriaa.officiel" class="social-card" target="_blank">
+                <div class="social-icon">
+                    <i class="fa-brands fa-tiktok"></i>
+                </div>
+                <div class="social-handle">@nyriaa.officiel</div>
+            </a>
+            <a href="https://www.tiktok.com/@sofiaprc" class="social-card" target="_blank">
+                <div class="social-icon">
+                    <i class="fa-brands fa-tiktok"></i>
+                </div>
+                <div class="social-handle">@sofiaprc</div>
+            </a>
+            <a href="https://www.instagram.com/sof.iaprc/" class="social-card" target="_blank">
+                <div class="social-icon">
+                    <i class="fa-brands fa-instagram"></i>
+                </div>
+                <div class="social-handle">@sof.iaprc</div>
+            </a>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section" id="creer">
+        <div class="cta-content">
+            <h2>Prête à partager votre style ?</h2>
+            <p>Rejoignez des milliers de créatrices et inspirez la communauté</p>
+            <a href="devenir-creatrice.html" class="cta-big-btn">Commencer maintenant</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="mentions-legales.html">Mentions légales</a>
+            <a href="confidentialite.html">Confidentialité</a>
+            <a href="conditions.html">Conditions d'utilisation</a>
+            <a href="mailto:nyriaa.partners@outlook.com">Contact</a>
+        </div>
+        <p>© 2026 Nyriaa — Plateforme de Mode Collaborative</p>
+    </footer>
+
+    <script>
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rejoindre Nyriaa · Devenir Créatrice</title>
+    <link rel="icon" href="favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --cream: #FAF8F3;
+            --charcoal: #1A1A1A;
+            --lavender: #A494C4;
+            --sage: #81A684;
+            --sand: #D4C5B9;
+            --white: #FFFFFF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--cream);
+            color: var(--charcoal);
+        }
+
+        /* NAVIGATION */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 2rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: var(--cream);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            font-weight: 300;
+            letter-spacing: 0.3em;
+            color: var(--charcoal);
+            text-decoration: none;
+        }
+
+        .back-btn {
+            background: var(--lavender);
+            color: var(--white);
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(164, 148, 196, 0.3);
+        }
+
+        /* CONTAINER */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 12rem 2rem 8rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+
+        .header h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 5rem;
+            font-weight: 300;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .header p {
+            font-size: 1.3rem;
+            color: #6A6A6A;
+        }
+
+        /* OPTIONS */
+        .options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-bottom: 5rem;
+        }
+
+        .option-card {
+            background: var(--white);
+            padding: 3rem;
+            border-radius: 25px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: pointer;
+            border: 3px solid transparent;
+        }
+
+        .option-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 60px rgba(164, 148, 196, 0.2);
+        }
+
+        .option-card.selected {
+            border-color: var(--lavender);
+            box-shadow: 0 20px 60px rgba(164, 148, 196, 0.3);
+        }
+
+        .option-badge {
+            display: inline-block;
+            padding: 0.5rem 1.2rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.05em;
+        }
+
+        .badge-creator {
+            background: linear-gradient(135deg, #E8E8E8, #D0D0D0);
+            color: #4A4A4A;
+        }
+
+        .badge-partner {
+            background: linear-gradient(135deg, #FFD1E0, #FF9FC0);
+            color: #4A001F;
+        }
+
+        .option-card h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .option-card p {
+            color: #6A6A6A;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .option-card ul {
+            margin-left: 1.5rem;
+            color: #6A6A6A;
+            line-height: 1.8;
+        }
+
+        /* FORM */
+        .form-container {
+            background: var(--white);
+            padding: 4rem;
+            border-radius: 25px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            display: none;
+        }
+
+        .form-container.active {
+            display: block;
+            animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--charcoal);
+        }
+
+        input[type="text"],
+        input[type="email"],
+        textarea {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            border: 2px solid #E8E8E8;
+            border-radius: 15px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--lavender);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        /* VISIBILITY CHOICE */
+        .visibility-choice {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .visibility-option {
+            position: relative;
+        }
+
+        .visibility-option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .visibility-option label {
+            display: block;
+            padding: 1.2rem;
+            border: 2px solid #E8E8E8;
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .visibility-option input[type="radio"]:checked + label {
+            border-color: var(--lavender);
+            background: linear-gradient(135deg, rgba(164, 148, 196, 0.1), rgba(197, 184, 217, 0.1));
+        }
+
+        /* FILE UPLOAD */
+        .upload-area {
+            border: 2px dashed #E8E8E8;
+            border-radius: 15px;
+            padding: 3rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 2rem;
+        }
+
+        .upload-area:hover {
+            border-color: var(--lavender);
+            background: rgba(164, 148, 196, 0.05);
+        }
+
+        .upload-area i {
+            font-size: 3rem;
+            color: var(--lavender);
+            margin-bottom: 1rem;
+        }
+
+        .upload-area p {
+            color: #6A6A6A;
+        }
+
+        .preview-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .preview-item {
+            position: relative;
+            aspect-ratio: 1;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .remove-preview {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .remove-preview:hover {
+            background: var(--lavender);
+        }
+
+        /* CONSENT */
+        .consent {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: rgba(164, 148, 196, 0.05);
+            border-radius: 15px;
+            font-size: 0.9rem;
+            line-height: 1.8;
+            color: #6A6A6A;
+        }
+
+        .consent label {
+            display: flex;
+            gap: 1rem;
+            cursor: pointer;
+            font-weight: 400;
+        }
+
+        .consent input[type="checkbox"] {
+            margin-top: 0.2rem;
+        }
+
+        .consent a {
+            color: var(--lavender);
+            text-decoration: none;
+        }
+
+        .consent a:hover {
+            text-decoration: underline;
+        }
+
+        /* SUBMIT BUTTON */
+        .submit-btn {
+            width: 100%;
+            padding: 1.5rem;
+            border: none;
+            border-radius: 50px;
+            background: var(--lavender);
+            color: var(--white);
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(164, 148, 196, 0.4);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 968px) {
+            nav {
+                padding: 1.5rem 2rem;
+            }
+
+            .container {
+                padding: 10rem 1.5rem 5rem;
+            }
+
+            .header h1 {
+                font-size: 3rem;
+            }
+
+            .options {
+                grid-template-columns: 1fr;
+            }
+
+            .form-container {
+                padding: 2rem;
+            }
+
+            .visibility-choice {
+                grid-template-columns: 1fr;
+            }
+
+            .preview-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <a href="index.html" class="logo">NYRIAA</a>
+        <a href="index.html" class="back-btn">← Retour</a>
+    </nav>
+
+    <!-- Container -->
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>Rejoindre Nyriaa</h1>
+            <p>Partagez votre passion pour la mode avec notre communauté</p>
+        </div>
+
+        <!-- Options -->
+        <div class="options">
+            <div class="option-card" onclick="selectOption('creator')">
+                <span class="option-badge badge-creator">Créatrice</span>
+                <h3>Devenir Créatrice</h3>
+                <p>Partagez vos tenues favorites et inspirez la communauté.</p>
+                <ul>
+                    <li>Gratuit et sans engagement</li>
+                    <li>Visibilité sur la plateforme</li>
+                    <li>Anonymat possible</li>
+                    <li>Échange de visibilité</li>
+                </ul>
+            </div>
+
+            <div class="option-card" onclick="selectOption('partner')">
+                <span class="option-badge badge-partner">Partenaire</span>
+                <h3>Devenir Partenaire</h3>
+                <p>Collaborez avec Nyriaa pour une relation plus étroite.</p>
+                <ul>
+                    <li>Rémunération possible</li>
+                    <li>Visibilité renforcée</li>
+                    <li>Contenus dédiés</li>
+                    <li>Accords personnalisés</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Form Container -->
+        <div class="form-container" id="formContainer">
+            <h2 class="form-title" id="formTitle">Formulaire de candidature</h2>
+            
+            <form name="nyriaa-application" method="POST" data-netlify="true" enctype="multipart/form-data">
+                <input type="hidden" name="form-name" value="nyriaa-application">
+                <input type="hidden" name="type" id="applicationType">
+
+                <div class="form-group">
+                    <label for="pseudo">Pseudo à afficher *</label>
+                    <input type="text" id="pseudo" name="pseudo" placeholder="ex : @sofiaprc" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Adresse email *</label>
+                    <input type="email" id="email" name="email" placeholder="email@exemple.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="socials">Réseaux sociaux</label>
+                    <input type="text" id="socials" name="socials" placeholder="Instagram, TikTok...">
+                </div>
+
+                <div class="form-group">
+                    <label>Souhaitez-vous apparaître publiquement ? *</label>
+                    <div class="visibility-choice">
+                        <div class="visibility-option">
+                            <input type="radio" id="public" name="visibility" value="public" required>
+                            <label for="public">Oui, publiquement</label>
+                        </div>
+                        <div class="visibility-option">
+                            <input type="radio" id="anonymous" name="visibility" value="anonymous">
+                            <label for="anonymous">Non, anonyme</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Photos de vos tenues (max 4) *</label>
+                    <div class="upload-area" id="uploadArea">
+                        <p>📸</p>
+                        <p>Cliquez pour ajouter jusqu'à 4 photos</p>
+                        <input type="file" id="photos" name="photos" accept="image/*" multiple hidden required>
+                    </div>
+                    <div class="preview-grid" id="previewGrid"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Parlez-nous de vous *</label>
+                    <textarea id="message" name="message" placeholder="Votre style, vos inspirations, vos objectifs..." required></textarea>
+                </div>
+
+                <div class="consent">
+                    <label>
+                        <input type="checkbox" required>
+                        <span>
+                            J'autorise Nyriaa à utiliser les photos envoyées à des fins d'affichage et de communication sur la plateforme, dans le respect de mon choix d'anonymat. 
+                            En envoyant ce formulaire, j'accepte les <a href="conditions.html" target="_blank">conditions d'utilisation</a> 
+                            et la <a href="confidentialite.html" target="_blank">politique de confidentialité</a>.
+                        </span>
+                    </label>
+                </div>
+
+                <button type="submit" class="submit-btn">Envoyer ma candidature ✨</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let selectedType = '';
+        let filesArray = [];
+
+        function selectOption(type) {
+            selectedType = type;
+            
+            // Update UI
+            document.querySelectorAll('.option-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            event.currentTarget.classList.add('selected');
+
+            // Show form
+            const formContainer = document.getElementById('formContainer');
+            const formTitle = document.getElementById('formTitle');
+            const applicationType = document.getElementById('applicationType');
+
+            if (type === 'creator') {
+                formTitle.textContent = 'Candidature Créatrice';
+                applicationType.value = 'Créatrice';
+            } else {
+                formTitle.textContent = 'Candidature Partenaire';
+                applicationType.value = 'Partenaire';
+            }
+
+            formContainer.classList.add('active');
+            formContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Upload handling
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('photos');
+        const previewGrid = document.getElementById('previewGrid');
+
+        uploadArea.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            const newFiles = Array.from(e.target.files);
+            
+            newFiles.forEach(file => {
+                if (filesArray.length >= 4) return;
+                filesArray.push(file);
+            });
+
+            renderPreviews();
+            fileInput.value = '';
+        });
+
+        function renderPreviews() {
+            previewGrid.innerHTML = '';
+
+            filesArray.forEach((file, index) => {
+                const reader = new FileReader();
+
+                reader.onload = (e) => {
+                    const div = document.createElement('div');
+                    div.className = 'preview-item';
+                    div.innerHTML = `
+                        <img src="${e.target.result}" alt="Preview">
+                        <button type="button" class="remove-preview" onclick="removeFile(${index})">✕</button>
+                    `;
+                    previewGrid.appendChild(div);
+                };
+
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function removeFile(index) {
+            filesArray.splice(index, 1);
+            renderPreviews();
+        }
+    </script>
+</body>
+</html>
