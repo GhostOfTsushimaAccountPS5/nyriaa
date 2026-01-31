@@ -1,0 +1,132 @@
+1️⃣ Où acheter le VPS (5–10 €)
+✅ Hébergeur recommandé
+
+Scaleway (simple, fiable, français)
+
+👉 Site : https://www.scaleway.com
+
+💳 Offre à choisir
+
+Produit : VPS
+
+Offre : DEV1-S
+
+Prix : ~7 € / mois
+
+OS : Ubuntu 22.04 LTS
+
+👉 Une fois payé, tu obtiens :
+
+une adresse IP
+
+un mot de passe root
+
+2️⃣ Ce que tu dois installer sur TON ordinateur
+
+Tu n’as PAS besoin de Linux sur ton PC.
+
+🖥️ Si tu es sur Windows
+
+Installe FileZilla (pour envoyer les fichiers)
+👉 https://filezilla-project.org
+
+Optionnel mais utile :
+
+Windows Terminal (ou PuTTY si tu préfères)
+
+🍎 Si tu es sur Mac
+
+👉 Le Terminal est déjà installé
+👉 FileZilla recommandé aussi
+
+3️⃣ Connexion au serveur (très simple)
+
+Ouvre le Terminal (ou PuTTY) et tape :
+
+ssh root@IP_DU_SERVEUR
+
+
+Exemple :
+
+ssh root@51.158.xxx.xxx
+
+
+➡️ Tu es maintenant dans ton VPS.
+
+4️⃣ Installer le minimum vital (copier / coller)
+🔹 Mise à jour du serveur
+apt update && apt upgrade -y
+
+🔹 Installer le serveur web
+apt install nginx -y
+
+
+👉 Test : ouvre ton navigateur et va sur
+http://IP_DU_SERVEUR
+
+Si tu vois une page Nginx → ✅ OK
+
+5️⃣ Mettre ton site en ligne
+📁 Créer le dossier du site
+mkdir /var/www/nyriaa-site
+
+🔐 Donner les droits
+chown -R www-data:www-data /var/www/nyriaa-site
+
+📤 Envoyer les fichiers (avec FileZilla)
+
+Dans FileZilla :
+
+Hôte : IP_DU_SERVEUR
+
+Identifiant : root
+
+Mot de passe : celui du VPS
+
+Port : 22
+
+➡️ Envoie tout ton site dans :
+
+/var/www/nyriaa-site
+
+
+(ex: index.html, css, images, etc.)
+
+6️⃣ Dire à Nginx d’utiliser ton site
+
+Créer la configuration :
+
+nano /etc/nginx/sites-available/nyriaa
+
+
+Colle ceci 👇 (simplement) :
+
+server {
+  listen 80;
+  server_name nyriaa.com www.nyriaa.com;
+
+  root /var/www/nyriaa-site;
+  index index.html;
+
+  location / {
+    try_files $uri $uri/ =404;
+  }
+}
+
+
+Activer le site :
+
+ln -s /etc/nginx/sites-available/nyriaa /etc/nginx/sites-enabled/
+nginx -t
+systemctl reload nginx
+
+
+👉 Ton site est en ligne 🎉
+
+7️⃣ HTTPS (sécurité automatique)
+apt install certbot python3-certbot-nginx -y
+certbot --nginx
+
+
+👉 HTTPS activé automatiquement 🔒
+👉 Renouvellement auto inclus
