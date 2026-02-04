@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rejoindre Nyriaa · Devenir Créatrice</title>
-    <link rel="icon" href="favicon.png">
+    <link rel="icon" href="nyricon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
@@ -376,11 +376,102 @@
             letter-spacing: 0.05em;
             cursor: pointer;
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
         }
 
-        .submit-btn:hover {
+        .submit-btn:hover:not(:disabled) {
             transform: translateY(-3px);
             box-shadow: 0 15px 40px rgba(164, 148, 196, 0.4);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .submit-btn.loading {
+            color: transparent;
+        }
+
+        .submit-btn.loading::after {
+            content: "";
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            top: 50%;
+            left: 50%;
+            margin-left: -10px;
+            margin-top: -10px;
+            border: 3px solid var(--white);
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spinner 0.8s linear infinite;
+        }
+
+        @keyframes spinner {
+            to { transform: rotate(360deg); }
+        }
+
+        /* SUCCESS/ERROR MESSAGES */
+        .message-box {
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            display: none;
+            animation: slideDown 0.4s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message-box.success {
+            background: linear-gradient(135deg, rgba(129, 166, 132, 0.1), rgba(129, 166, 132, 0.2));
+            border: 2px solid var(--sage);
+            color: #2d5a2f;
+            display: block;
+        }
+
+        .message-box.error {
+            background: linear-gradient(135deg, rgba(220, 100, 100, 0.1), rgba(220, 100, 100, 0.2));
+            border: 2px solid #dc6464;
+            color: #8b2e2e;
+            display: block;
+        }
+
+        .message-box h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .message-box p {
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        /* VALIDATION ERRORS */
+        .error-text {
+            color: #dc6464;
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        .error-text.show {
+            display: block;
+        }
+
+        input.error,
+        textarea.error {
+            border-color: #dc6464;
         }
 
         /* RESPONSIVE */
@@ -461,9 +552,22 @@
         <div class="form-container" id="formContainer">
             <h2 class="form-title" id="formTitle">Formulaire de candidature</h2>
             
-            <form name="nyriaa-application" method="POST" data-netlify="true" enctype="multipart/form-data">
-                <input type="hidden" name="form-name" value="nyriaa-application">
+            <!-- Success Message -->
+            <div class="message-box success" id="successMessage">
+                <h3>✨ Candidature envoyée !</h3>
+                <p>Merci pour votre candidature ! Nous avons bien reçu vos informations et nous vous recontacterons très bientôt par email.</p>
+            </div>
+
+            <!-- Error Message -->
+            <div class="message-box error" id="errorMessage">
+                <h3>❌ Erreur d'envoi</h3>
+                <p id="errorText">Une erreur s'est produite lors de l'envoi. Veuillez réessayer ou nous contacter à nyriaa.partners@outlook.com</p>
+            </div>
+
+            <form id="applicationForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" enctype="multipart/form-data">
+                
                 <input type="hidden" name="type" id="applicationType">
+                <input type="hidden" name="_subject" value="Nouvelle candidature Nyriaa">
 
                 <div class="form-group">
                     <label for="pseudo">Pseudo à afficher *</label>
@@ -473,6 +577,7 @@
                 <div class="form-group">
                     <label for="email">Adresse email *</label>
                     <input type="email" id="email" name="email" placeholder="email@exemple.com" required>
+                    <span class="error-text" id="emailError">Veuillez entrer une adresse email valide</span>
                 </div>
 
                 <div class="form-group">
@@ -502,6 +607,7 @@
                         <input type="file" id="photos" name="photos" accept="image/*" multiple hidden required>
                     </div>
                     <div class="preview-grid" id="previewGrid"></div>
+                    <span class="error-text" id="photosError">Veuillez ajouter au moins une photo</span>
                 </div>
 
                 <div class="form-group">
@@ -569,11 +675,23 @@
             
             newFiles.forEach(file => {
                 if (filesArray.length >= 4) return;
+                
+                // Validate file size (max 10MB)
+                if (file.size > 10 * 1024 * 1024) {
+                    showError('photosError', 'Les fichiers doivent faire moins de 10MB');
+                    return;
+                }
+                
                 filesArray.push(file);
             });
 
             renderPreviews();
             fileInput.value = '';
+            
+            // Clear error if photos added
+            if (filesArray.length > 0) {
+                hideError('photosError');
+            }
         });
 
         function renderPreviews() {
@@ -599,7 +717,151 @@
         function removeFile(index) {
             filesArray.splice(index, 1);
             renderPreviews();
+            
+            // Show error if no photos left
+            if (filesArray.length === 0) {
+                showError('photosError', 'Veuillez ajouter au moins une photo');
+            }
         }
+
+        // Form validation
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        function showError(elementId, message) {
+            const errorElement = document.getElementById(elementId);
+            if (errorElement) {
+                if (message) {
+                    errorElement.textContent = message;
+                }
+                errorElement.classList.add('show');
+            }
+        }
+
+        function hideError(elementId) {
+            const errorElement = document.getElementById(elementId);
+            if (errorElement) {
+                errorElement.classList.remove('show');
+            }
+        }
+
+        // Email validation on blur
+        document.getElementById('email').addEventListener('blur', function() {
+            const email = this.value;
+            if (email && !validateEmail(email)) {
+                this.classList.add('error');
+                showError('emailError');
+            } else {
+                this.classList.remove('error');
+                hideError('emailError');
+            }
+        });
+
+        // Form submission
+        const form = document.getElementById('applicationForm');
+        const submitBtn = document.querySelector('.submit-btn');
+        const successMessage = document.getElementById('successMessage');
+        const errorMessage = document.getElementById('errorMessage');
+
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Hide previous messages
+            successMessage.style.display = 'none';
+            errorMessage.style.display = 'none';
+            
+            // Validate form
+            let isValid = true;
+            
+            // Check email
+            const email = document.getElementById('email').value;
+            if (!validateEmail(email)) {
+                document.getElementById('email').classList.add('error');
+                showError('emailError');
+                isValid = false;
+            }
+            
+            // Check photos
+            if (filesArray.length === 0) {
+                showError('photosError', 'Veuillez ajouter au moins une photo');
+                isValid = false;
+            }
+            
+            // Check visibility choice
+            const visibilityChecked = document.querySelector('input[name="visibility"]:checked');
+            if (!visibilityChecked) {
+                isValid = false;
+                alert('Veuillez choisir si vous souhaitez apparaître publiquement ou rester anonyme');
+            }
+            
+            if (!isValid) {
+                errorMessage.style.display = 'block';
+                document.getElementById('errorText').textContent = 'Veuillez corriger les erreurs dans le formulaire';
+                errorMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                return;
+            }
+            
+            // Show loading state
+            submitBtn.disabled = true;
+            submitBtn.classList.add('loading');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = '';
+            
+            // Prepare form data
+            const formData = new FormData(form);
+            
+            // Add files to formData
+            filesArray.forEach((file, index) => {
+                formData.append(`photo_${index + 1}`, file);
+            });
+            
+            try {
+                // Submit to Formspree
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    // Success!
+                    successMessage.style.display = 'block';
+                    successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    
+                    // Reset form
+                    form.reset();
+                    filesArray = [];
+                    renderPreviews();
+                    
+                    // Hide form after success
+                    setTimeout(() => {
+                        form.style.display = 'none';
+                    }, 500);
+                    
+                } else {
+                    // Error
+                    const data = await response.json();
+                    throw new Error(data.error || 'Erreur d\'envoi');
+                }
+                
+            } catch (error) {
+                console.error('Error:', error);
+                errorMessage.style.display = 'block';
+                document.getElementById('errorText').textContent = 
+                    'Une erreur s\'est produite lors de l\'envoi. Veuillez réessayer ou nous contacter à nyriaa.partners@outlook.com';
+                errorMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                
+            } finally {
+                // Remove loading state
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('loading');
+                submitBtn.textContent = originalText;
+            }
+        });
     </script>
 </body>
 </html>

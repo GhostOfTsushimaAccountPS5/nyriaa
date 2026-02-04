@@ -138,5 +138,38 @@ const outfits = [
         link: "https://www.zalando.fr/super-mode-bottes-de-cowboy-motard-taupe-sjz11n07p-b11.html"
       }
     ]
+  },
+  {
+    id: "elegant-1",
+    title: "✨ ELEGANT ・ OUTFIT ✨",
+    image: "images/liste-outfit/elegant-1.png",
+    author: "@sofiaprc",
+    badge: "creator",
+    items: [
+      {
+        name: "URFEDA Hauts sans épaules",
+        brand: "Amazon",
+        image: "haut-1.png",
+        link: "https://www.amazon.fr/dp/B0D1YBDN5M?tag=sofiaprc-21"
+      },
+      {
+        name: "EMBROIDERY - Pantalon",
+        brand: "Zalondo",
+        image: "pantalon-1.png",
+        link: "https://fr.zalando.be/stradivarius-fitting-with-sequinned-embroidery-pantalon-classique-dark-brown-sth21a0yu-o11.html"
+      },
+      {
+        name: "Sac à main en cuir",
+        brand: "Vestiaire Collective",
+        image: "sac-1.png",
+        link: "https://fr.vestiairecollective.com/sacs-femme/sacs-a-main/polene/sac-a-main-polene-numero-neuf-en-cuir-gris-48381486.shtml"
+      },
+      {
+        name: "Montre Tissot PRX",
+        brand: "Montre",
+        image: "montre-1.png",
+        link: "https://www.montre.be/tissot-prx-powermatic-80-montre-iconique-de-1978-au-design-suisse-t1372073302100.htm"
+      }
+    ]
   }
 ];
