@@ -171,5 +171,50 @@ const outfits = [
         link: "https://www.montre.be/tissot-prx-powermatic-80-montre-iconique-de-1978-au-design-suisse-t1372073302100.htm"
       }
     ]
+  },
+  {
+    id: "automne-1",
+    title: "🍂 AUTOMNE ・ OUTFIT 🍂",
+    image: "images/liste-outfit/automne-1.png",
+    author: "@sofiaprc",
+    badge: "creator",
+    items: [
+      {
+        name: "BOLERO - Cape - dunkelgrau",
+        brand: "Zalando",
+        image: "haut-1.png",
+        
+        affiliate: {
+          fr: "https://www.zalando.fr/elara-cape-dunkelgrau-e1n21u018-c11.html",
+          be: "https://fr.zalando.be/elara-cape-dunkelgrau-e1n21u018-c11.html"
+        }
+      },
+      {
+        name: "WIDE LEG - Pantalon",
+        brand: "Zalando",
+        image: "bas-1.png",
+
+        affiliate: {
+          fr: "https://www.zalando.fr/south-beach-pantalon-de-survetement-black-soh21a00v-q11.html",
+          be: "https://fr.zalando.be/south-beach-pantalon-de-survetement-black-soh21a00v-q11.html"
+        }
+      },
+      {
+        name: "JFWMATEO SNEAKER - Baskets basses",
+        brand: "Zalondo",
+        image: "chaussure-1.png",
+
+        affiliate: {
+          fr: "https://www.zalando.fr/jack-and-jones-jfwmateo-sneaker-baskets-basses-plaza-taupe-zzo30uu05-o11.html",
+          be: "https://fr.zalando.be/jack-and-jones-jfwmateo-sneaker-baskets-basses-plaza-taupe-zzo30uu05-o11.html"
+        }
+      },
+      {
+        name: "BALLOON HOBO MEDIUM BLACK ",
+        brand: "Amag Studio",
+        image: "sac-1.png",
+        link: "https://amagstudio.com/product/balloon-hobo-medium-black/100/category/71/display/1/",
+      }
+    ]
   }
 ];
