@@ -53,7 +53,11 @@ const outfits = [
         name: "Black - Gillet",
         brand: "Zalando",
         image: "haut-1.png",
-        link: "https://www.zalando.fr/evenandodd-gilet-black-ev421d2nx-q11.html"
+
+        affiliate: {
+          fr: "https://www.zalando.fr/evenandodd-gilet-black-ev421d2nx-q11.html",
+          be: "https://fr.zalando.be/evenandodd-gilet-black-ev421d2nx-q11.html"
+        }
       },
       {
         name: "Mini jupe crayon stretch",
@@ -66,7 +70,7 @@ const outfits = [
         }
       },
       {
-        name: "SANTIAGS - Bottes de cowboy",
+        name: "SANTIAGS - Bottes de cowboy (FR only)",
         brand: "Zalando",
         image: "botte-1.png",
         link: "https://www.zalando.fr/super-mode-bottes-de-cowboy-motard-taupe-sjz11n07p-b11.html"
@@ -82,7 +86,7 @@ const outfits = [
 
     items: [
       {
-        name: "MOSS COPENHAGEN BATHILDA",
+        name: "MOSS COPENHAGEN BATHILDA (BE only)",
         brand: "Zalando",
         image: "haut-1.png",
         link: "https://fr.zalando.be/msch-copenhagen-moss-copenhagen-bathilda-pullover-hellgrau-m0y21i09v-c11.html"
@@ -91,7 +95,11 @@ const outfits = [
         name: "SMITH 2 - Bottes à talons",
         brand: "Zalondo",
         image: "botte-1.png",
-        link: "https://fr.zalando.be/steve-madden-smith-2-bottes-a-talons-hauts-black-st311n0h9-q11.html",
+
+        affiliate: {
+          fr: "https://www.zalando.fr/steve-madden-smith-2-bottes-a-talons-hauts-black-st311n0h9-q11.html",
+          be: "https://fr.zalando.be/steve-madden-smith-2-bottes-a-talons-hauts-black-st311n0h9-q11.html"
+        }
       },
       {
         name: "Mini jupe crayon stretch",
@@ -107,7 +115,11 @@ const outfits = [
         name: "Sac à main - black",
         brand: "Zalondo",
         image: "sac-1.png",
-        link: "https://fr.zalando.be/liu-jo-sac-bandouliere-black-li651h2ou-q11.html",
+
+        affiliate: {
+          fr: "https://www.zalando.fr/liu-jo-sac-bandouliere-black-li651h2ou-q11.html",
+          be: "https://fr.zalando.be/liu-jo-sac-bandouliere-black-li651h2ou-q11.html"
+        }
       },
     ]
   },
@@ -132,7 +144,7 @@ const outfits = [
         link: "https://m.shein.com/fr/ROMWE-Grunge-Punk-Women-s-Black-Sequin-Punk-Mini-Shorts-Sexy-Ultra-Low-Waist-Micro-Shorts-For-Summer-Beach-Graduation-Easter-Concert-Nashville-Vacation-Music-Festival-p-55424094.html",
       },
       {
-        name: "SANTIAGS - Bottes de cowboy",
+        name: "SANTIAGS - Bottes de cowboy (FR only)",
         brand: "Zalando",
         image: "botte-1.png",
         link: "https://www.zalando.fr/super-mode-bottes-de-cowboy-motard-taupe-sjz11n07p-b11.html"
@@ -147,7 +159,7 @@ const outfits = [
     badge: "creator",
     items: [
       {
-        name: "URFEDA Hauts sans épaules",
+        name: "URFEDA Hauts sans épaules (BE only)",
         brand: "Amazon",
         image: "haut-1.png",
         link: "https://www.amazon.fr/dp/B0D1YBDN5M?tag=sofiaprc-21"
@@ -156,7 +168,11 @@ const outfits = [
         name: "EMBROIDERY - Pantalon",
         brand: "Zalondo",
         image: "pantalon-1.png",
-        link: "https://fr.zalando.be/stradivarius-fitting-with-sequinned-embroidery-pantalon-classique-dark-brown-sth21a0yu-o11.html"
+
+        affiliate: {
+          fr: "https://www.zalando.fr/stradivarius-fitting-with-sequinned-embroidery-pantalon-classique-dark-brown-sth21a0yu-o11.html",
+          be: "https://fr.zalando.be/stradivarius-fitting-with-sequinned-embroidery-pantalon-classique-dark-brown-sth21a0yu-o11.html"
+        }
       },
       {
         name: "Sac à main en cuir",
