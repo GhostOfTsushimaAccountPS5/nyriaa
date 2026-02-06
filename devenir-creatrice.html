@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rejoindre Nyriaa · Devenir Créatrice</title>
-    <link rel="icon" href="nyricon.png">
+    <link rel="icon" href="favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
@@ -207,6 +207,25 @@
             color: var(--charcoal);
         }
 
+        .label-with-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-link {
+            color: var(--lavender);
+            font-size: 0.9rem;
+            cursor: pointer;
+            text-decoration: underline;
+            font-weight: 400;
+        }
+
+        .info-link:hover {
+            color: #8B7DA8;
+        }
+
         input[type="text"],
         input[type="email"],
         textarea {
@@ -280,14 +299,9 @@
             background: rgba(164, 148, 196, 0.05);
         }
 
-        .upload-area i {
-            font-size: 3rem;
-            color: var(--lavender);
-            margin-bottom: 1rem;
-        }
-
         .upload-area p {
-            color: #6A6A6A;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
         }
 
         .preview-grid {
@@ -412,7 +426,7 @@
             to { transform: rotate(360deg); }
         }
 
-        /* SUCCESS/ERROR MESSAGES */
+        /* SUCCESS/ERROR MESSAGES - HIDDEN BY DEFAULT */
         .message-box {
             padding: 1.5rem;
             border-radius: 15px;
@@ -432,18 +446,20 @@
             }
         }
 
+        .message-box.show {
+            display: block !important;
+        }
+
         .message-box.success {
             background: linear-gradient(135deg, rgba(129, 166, 132, 0.1), rgba(129, 166, 132, 0.2));
             border: 2px solid var(--sage);
             color: #2d5a2f;
-            display: block;
         }
 
         .message-box.error {
             background: linear-gradient(135deg, rgba(220, 100, 100, 0.1), rgba(220, 100, 100, 0.2));
             border: 2px solid #dc6464;
             color: #8b2e2e;
-            display: block;
         }
 
         .message-box h3 {
@@ -472,6 +488,87 @@
         input.error,
         textarea.error {
             border-color: #dc6464;
+        }
+
+        /* ANONYMITY INFO POPUP */
+        .info-popup-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .info-popup-overlay.show {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .info-popup {
+            background: var(--white);
+            padding: 2.5rem;
+            border-radius: 25px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            animation: popIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes popIn {
+            from {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .info-popup h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--lavender);
+        }
+
+        .info-popup p {
+            line-height: 1.8;
+            color: #4A4A4A;
+            margin-bottom: 1rem;
+        }
+
+        .info-popup .highlight {
+            background: rgba(164, 148, 196, 0.1);
+            padding: 1rem;
+            border-radius: 10px;
+            border-left: 3px solid var(--lavender);
+            margin: 1.5rem 0;
+        }
+
+        .close-popup {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #6A6A6A;
+            transition: color 0.3s;
+        }
+
+        .close-popup:hover {
+            color: var(--charcoal);
         }
 
         /* RESPONSIVE */
@@ -564,7 +661,7 @@
                 <p id="errorText">Une erreur s'est produite lors de l'envoi. Veuillez réessayer ou nous contacter à nyriaa.partners@outlook.com</p>
             </div>
 
-            <form id="applicationForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" enctype="multipart/form-data">
+            <form id="applicationForm" action="https://formspree.io/f/xdazqwgn" method="POST" enctype="multipart/form-data">
                 
                 <input type="hidden" name="type" id="applicationType">
                 <input type="hidden" name="_subject" value="Nouvelle candidature Nyriaa">
@@ -586,7 +683,10 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Souhaitez-vous apparaître publiquement ? *</label>
+                    <div class="label-with-info">
+                        <label>Souhaitez-vous apparaître publiquement ? *</label>
+                        <span class="info-link" onclick="openInfoPopup()">Ça consiste en quoi ?</span>
+                    </div>
                     <div class="visibility-choice">
                         <div class="visibility-option">
                             <input type="radio" id="public" name="visibility" value="public" required>
@@ -604,7 +704,7 @@
                     <div class="upload-area" id="uploadArea">
                         <p>📸</p>
                         <p>Cliquez pour ajouter jusqu'à 4 photos</p>
-                        <input type="file" id="photos" name="photos" accept="image/*" multiple hidden required>
+                        <input type="file" id="photos" name="photos" accept="image/*" multiple hidden>
                     </div>
                     <div class="preview-grid" id="previewGrid"></div>
                     <span class="error-text" id="photosError">Veuillez ajouter au moins une photo</span>
@@ -617,7 +717,7 @@
 
                 <div class="consent">
                     <label>
-                        <input type="checkbox" required>
+                        <input type="checkbox" id="consent" required>
                         <span>
                             J'autorise Nyriaa à utiliser les photos envoyées à des fins d'affichage et de communication sur la plateforme, dans le respect de mon choix d'anonymat. 
                             En envoyant ce formulaire, j'accepte les <a href="conditions.html" target="_blank">conditions d'utilisation</a> 
@@ -631,9 +731,34 @@
         </div>
     </div>
 
+    <!-- Anonymity Info Popup -->
+    <div class="info-popup-overlay" id="infoPopupOverlay" onclick="closeInfoPopup()">
+        <div class="info-popup" onclick="event.stopPropagation()">
+            <button class="close-popup" onclick="closeInfoPopup()">✕</button>
+            <h3>🔒 Anonymat & Visibilité</h3>
+            
+            <p><strong>Si vous choisissez d'apparaître publiquement :</strong></p>
+            <p>Votre pseudo sera affiché sous vos tenues sur la plateforme. Vous serez visible et identifiable par la communauté.</p>
+            
+            <p style="margin-top: 1.5rem;"><strong>Si vous choisissez l'anonymat :</strong></p>
+            <p>Aucun nom, pseudo, réseau social ou visage ne sera visible. Seules vos tenues seront affichées de manière anonyme.</p>
+            
+            <div class="highlight">
+                <p style="margin: 0; color: var(--lavender); font-weight: 500;">💜 Vous pouvez changer d'avis à tout moment !</p>
+            </div>
+            
+            <p style="font-size: 0.9rem; margin-top: 1.5rem;">
+                Consultez nos <a href="conditions.html" target="_blank" style="color: var(--lavender);">conditions d'utilisation</a> 
+                et notre <a href="confidentialite.html" target="_blank" style="color: var(--lavender);">politique de confidentialité</a> 
+                pour plus d'informations sur la protection de vos données.
+            </p>
+        </div>
+    </div>
+
     <script>
         let selectedType = '';
         let filesArray = [];
+        const uploadcarePublicKey = 'd4605087cfc4572e62ca';
 
         function selectOption(type) {
             selectedType = type;
@@ -659,6 +784,15 @@
 
             formContainer.classList.add('active');
             formContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Info popup
+        function openInfoPopup() {
+            document.getElementById('infoPopupOverlay').classList.add('show');
+        }
+
+        function closeInfoPopup() {
+            document.getElementById('infoPopupOverlay').classList.remove('show');
         }
 
         // Upload handling
@@ -765,19 +899,56 @@
         const successMessage = document.getElementById('successMessage');
         const errorMessage = document.getElementById('errorMessage');
 
+        async function uploadToUploadcare(file) {
+            const data = new FormData();
+            data.append('UPLOADCARE_PUB_KEY', uploadcarePublicKey);
+            data.append('UPLOADCARE_STORE', '1');
+            data.append('file', file);
+
+            const response = await fetch('https://upload.uploadcare.com/base/', {
+                method: 'POST',
+                body: data
+            });
+
+            if (!response.ok) {
+                throw new Error('Erreur upload fichier');
+            }
+
+            const result = await response.json();
+            if (!result || !result.file) {
+                throw new Error('Réponse upload invalide');
+            }
+
+            return `https://ucarecdn.com/${result.file}/`;
+        }
+
         form.addEventListener('submit', async function(e) {
             e.preventDefault();
             
             // Hide previous messages
-            successMessage.style.display = 'none';
-            errorMessage.style.display = 'none';
+            successMessage.classList.remove('show');
+            errorMessage.classList.remove('show');
             
             // Validate form
             let isValid = true;
+            let errors = [];
+            
+            // Check pseudo
+            const pseudo = document.getElementById('pseudo').value.trim();
+            if (!pseudo) {
+                errors.push('Le pseudo est requis');
+                isValid = false;
+            }
             
             // Check email
-            const email = document.getElementById('email').value;
-            if (!validateEmail(email)) {
+            const email = document.getElementById('email').value.trim();
+            if (!email) {
+                errors.push('L\'email est requis');
+                document.getElementById('email').classList.add('error');
+                showError('emailError', 'L\'email est requis');
+                isValid = false;
+            } else if (!validateEmail(email)) {
+                errors.push('L\'email n\'est pas valide');
                 document.getElementById('email').classList.add('error');
                 showError('emailError');
                 isValid = false;
@@ -785,6 +956,7 @@
             
             // Check photos
             if (filesArray.length === 0) {
+                errors.push('Au moins une photo est requise');
                 showError('photosError', 'Veuillez ajouter au moins une photo');
                 isValid = false;
             }
@@ -792,13 +964,28 @@
             // Check visibility choice
             const visibilityChecked = document.querySelector('input[name="visibility"]:checked');
             if (!visibilityChecked) {
+                errors.push('Veuillez choisir votre visibilité');
                 isValid = false;
-                alert('Veuillez choisir si vous souhaitez apparaître publiquement ou rester anonyme');
+            }
+            
+            // Check message
+            const message = document.getElementById('message').value.trim();
+            if (!message) {
+                errors.push('Le message est requis');
+                isValid = false;
+            }
+            
+            // Check consent
+            const consent = document.getElementById('consent').checked;
+            if (!consent) {
+                errors.push('Vous devez accepter les conditions');
+                isValid = false;
             }
             
             if (!isValid) {
-                errorMessage.style.display = 'block';
-                document.getElementById('errorText').textContent = 'Veuillez corriger les erreurs dans le formulaire';
+                errorMessage.classList.add('show');
+                document.getElementById('errorText').textContent = 
+                    'Veuillez remplir tous les champs requis : ' + errors.join(', ');
                 errorMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 return;
             }
@@ -811,11 +998,20 @@
             
             // Prepare form data
             const formData = new FormData(form);
-            
-            // Add files to formData
-            filesArray.forEach((file, index) => {
-                formData.append(`photo_${index + 1}`, file);
-            });
+
+            // Upload files to Uploadcare and add URLs to formData
+            let uploadedUrls = [];
+            try {
+                uploadedUrls = await Promise.all(filesArray.map(file => uploadToUploadcare(file)));
+                formData.append('photo_urls', uploadedUrls.join('\n'));
+            } catch (uploadError) {
+                console.error('Upload error:', uploadError);
+                errorMessage.classList.add('show');
+                document.getElementById('errorText').textContent =
+                    'Une erreur s\'est produite lors de l\'upload des photos. Vérifiez que votre domaine est autorisé dans Uploadcare, puis réessayez.';
+                errorMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                return;
+            }
             
             try {
                 // Submit to Formspree
@@ -829,7 +1025,7 @@
                 
                 if (response.ok) {
                     // Success!
-                    successMessage.style.display = 'block';
+                    successMessage.classList.add('show');
                     successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     
                     // Reset form
@@ -850,7 +1046,7 @@
                 
             } catch (error) {
                 console.error('Error:', error);
-                errorMessage.style.display = 'block';
+                errorMessage.classList.add('show');
                 document.getElementById('errorText').textContent = 
                     'Une erreur s\'est produite lors de l\'envoi. Veuillez réessayer ou nous contacter à nyriaa.partners@outlook.com';
                 errorMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
