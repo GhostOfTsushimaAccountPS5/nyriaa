@@ -113,7 +113,7 @@ const outfits = [
       },
       {
         name: "Sac à main - black",
-        brand: "Zalondo",
+        brand: "Zalando",
         image: "sac-1.png",
 
         affiliate: {
@@ -166,7 +166,7 @@ const outfits = [
       },
       {
         name: "EMBROIDERY - Pantalon",
-        brand: "Zalondo",
+        brand: "Zalando",
         image: "pantalon-1.png",
 
         affiliate: {
@@ -217,7 +217,7 @@ const outfits = [
       },
       {
         name: "JFWMATEO SNEAKER - Baskets basses",
-        brand: "Zalondo",
+        brand: "Zalando",
         image: "chaussure-1.png",
 
         affiliate: {

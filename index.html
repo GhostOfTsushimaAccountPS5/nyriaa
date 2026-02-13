@@ -129,7 +129,7 @@
             min-height: 100vh;
             display: flex;
             align-items: center;
-            padding: 0 4rem;
+            padding: 12rem 4rem 0 4rem;
             position: relative;
             overflow: hidden;
         }
@@ -577,9 +577,10 @@
             }
 
             .hero {
-                padding: 0 2rem;
+                padding: 8rem 2rem 0 2rem;
                 flex-direction: column;
                 justify-content: center;
+                min-height: auto
             }
 
             .hero h1 {
@@ -622,8 +623,14 @@
 
         @media (max-width: 640px) {
             nav {
-                padding: 1rem 1.25rem;
+                height: 70px;
+                padding: 0 1.25rem
             }
+
+            body {
+                padding-top: 70px;
+            }
+
 
             .logo {
                 font-size: 1.4rem;
