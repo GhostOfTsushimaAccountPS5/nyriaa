@@ -136,6 +136,19 @@ Les formulaires utilisent Netlify Forms. Assurez-vous que :
 - Vous avez `data-netlify="true"` dans vos formulaires
 - Vous avez configuré les notifications email dans Netlify
 
+## 🔐 Authentification (Supabase)
+
+Une page `auth.html` a été ajoutée pour gérer l'inscription, la connexion et la déconnexion via Supabase.
+
+### Configuration Supabase
+1. Crée un projet sur https://app.supabase.com/.
+2. Active l'authentification Email + mot de passe (dans Authentication > Providers > Email).
+3. Copie ton **Project URL** et ta clé **Anon public**.
+4. Ouvre `supabase-client.js` et remplace les valeurs `SUPABASE_URL` et `SUPABASE_ANON_KEY`.
+5. Utilise les règles de sécurité (RLS + policies) pour protéger ta base.
+
+> ✅ Pour tester rapidement, ouvre `auth.html` et crée un compte.
+
 ## 🎯 Prochaines étapes recommandées
 
 1. ✅ Remplacer les 3 images de la page d'accueil

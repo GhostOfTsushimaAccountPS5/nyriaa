@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Connexion / Inscription – Nyriaa</title>
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <style>
+    body {
+      font-family: 'DM Sans', sans-serif;
+      margin: 0;
+      background: #faf8f3;
+      color: #1a1a1a;
+    }
+    nav {
+      padding: 1.5rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      letter-spacing: 0.3em;
+    }
+    .container {
+      max-width: 480px;
+      margin: 2.5rem auto;
+      padding: 2rem;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+    }
+    h1 {
+      margin-bottom: 1rem;
+      font-size: 2rem;
+    }
+    form {
+      display: grid;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    label {
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    input {
+      padding: 0.85rem 1rem;
+      border: 1px solid rgba(0, 0, 0, 0.16);
+      border-radius: 999px;
+      font-size: 1rem;
+      width: 100%;
+    }
+    button {
+      cursor: pointer;
+      border: none;
+      border-radius: 999px;
+      padding: 1rem 1.4rem;
+      background: #a494c4;
+      color: white;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+    .secondary {
+      background: transparent;
+      border: 1px solid rgba(26, 26, 26, 0.25);
+      color: #1a1a1a;
+    }
+    .helper {
+      font-size: 0.9rem;
+      color: rgba(26, 26, 26, 0.7);
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="logo">NYRIAA</div>
+    <a href="index.html" class="secondary">Retour</a>
+  </nav>
+
+  <div class="container">
+    <h1>Connexion / Inscription</h1>
+
+    <section data-auth-when="logged-out">
+      <form id="signin-form">
+        <label for="signin-email">Email</label>
+        <input id="signin-email" type="email" required />
+        <label for="signin-password">Mot de passe</label>
+        <input id="signin-password" type="password" required />
+        <button type="submit">Se connecter</button>
+      </form>
+
+      <form id="signup-form">
+        <label for="signup-email">Email</label>
+        <input id="signup-email" type="email" required />
+        <label for="signup-password">Mot de passe</label>
+        <input id="signup-password" type="password" required />
+        <button type="submit">Créer un compte</button>
+      </form>
+
+      <form id="reset-form">
+        <label for="reset-email">Mot de passe oublié ?</label>
+        <input id="reset-email" type="email" placeholder="Ton email" />
+        <button type="submit" class="secondary">Réinitialiser</button>
+      </form>
+
+      <p class="helper">
+        Après l'inscription, tu recevras un email pour confirmer ton compte. Vérifie tes spams si tu ne le vois pas.
+      </p>
+    </section>
+
+    <section data-auth-when="logged-in" class="hidden">
+      <p>Connecté en tant que <strong id="user-email"></strong></p>
+      <button id="signout-btn" class="secondary">Se déconnecter</button>
+    </section>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
+  <script src="supabase-client.js"></script>
+  <script src="auth.js"></script>
+</body>
+</html>
