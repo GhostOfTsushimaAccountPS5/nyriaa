@@ -14,7 +14,9 @@
 const SUPABASE_URL = "https://ckhjsxtdiqasmudztjkt.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_vxdb3rz6V9znl3dDvcniPA_UoKlsO65";
 
-const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// Attention : le CDN injecte un objet global `supabase`. Ici on l'appelle via `window.supabase`
+// pour éviter le conflit avec la variable locale `supabase` qui est définie juste après.
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // Expose globalement pour que les pages puissent l'utiliser sans module bundler.
 window.supabase = supabase;

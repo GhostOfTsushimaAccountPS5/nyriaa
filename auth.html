@@ -102,7 +102,12 @@
           <input id="signin-email" type="email" required />
 
           <label for="signin-password">Mot de passe</label>
-          <input id="signin-password" type="password" required />
+          <div class="input-group">
+            <input id="signin-password" type="password" required />
+            <button type="button" class="password-toggle" aria-label="Afficher / masquer le mot de passe">
+              <i class="fa fa-eye"></i>
+            </button>
+          </div>
 
           <button type="submit">Se connecter</button>
 
@@ -125,10 +130,20 @@
           <input id="signup-email" type="email" required />
 
           <label for="signup-password">Mot de passe</label>
-          <input id="signup-password" type="password" required />
+          <div class="input-group">
+            <input id="signup-password" type="password" required />
+            <button type="button" class="password-toggle" aria-label="Afficher / masquer le mot de passe">
+              <i class="fa fa-eye"></i>
+            </button>
+          </div>
 
           <label for="signup-password-confirm">Confirmer le mot de passe</label>
-          <input id="signup-password-confirm" type="password" required />
+          <div class="input-group">
+            <input id="signup-password-confirm" type="password" required />
+            <button type="button" class="password-toggle" aria-label="Afficher / masquer le mot de passe">
+              <i class="fa fa-eye"></i>
+            </button>
+          </div>
 
           <div class="helper" id="password-help">
             Minimum 8 caractères, avec lettres + chiffres.
@@ -187,6 +202,40 @@
       border-color: rgba(0, 0, 0, 0.15);
       box-shadow: 0 10px 25px rgba(164, 148, 196, 0.35);
     }
+
+    .input-group {
+      position: relative;
+      width: 100%;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding-right: 3.2rem;
+      box-sizing: border-box;
+    }
+
+    input,
+    button {
+      box-sizing: border-box;
+    }
+
+    .input-group .password-toggle {
+      position: absolute;
+      right: 0.85rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: transparent;
+      border: none;
+      color: rgba(26, 26, 26, 0.6);
+      font-size: 1.1rem;
+      cursor: pointer;
+      padding: 0.25rem;
+    }
+
+    .input-group .password-toggle:hover {
+      color: rgba(26, 26, 26, 0.9);
+    }
+
     .alert {
       padding: 0.75rem 1rem;
       border-radius: 1rem;

@@ -1,5 +1,6 @@
 const $ = (selector) => document.querySelector(selector);
 
+// Affiche un message utilisateur en haut de la page
 function showAlert(message, type = "success") {
   const alert = $("#alert");
   if (!alert) return;
@@ -13,6 +14,15 @@ function showAlert(message, type = "success") {
     alert.style.display = "none";
   }, 5000);
 }
+
+// Affiche directement les erreurs JS afin de débugger en local
+window.addEventListener("error", (event) => {
+  showAlert(`Erreur JS : ${event.message}`, "error");
+});
+
+window.addEventListener("unhandledrejection", (event) => {
+  showAlert(`Erreur JS : ${event.reason}`, "error");
+});
 
 function validateEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -97,7 +107,10 @@ async function handleSignUp(event) {
     return;
   }
 
-  const { error } = await supabase.auth.signUp({ email, password });
+  console.log("Sign up requested", { email, password });
+  const { data, error } = await supabase.auth.signUp({ email, password });
+  console.log("Supabase signUp result", { data, error });
+
   if (error) {
     showAlert(error.message, "error");
     return;
@@ -162,6 +175,14 @@ async function handleResetPassword(event) {
 }
 
 window.addEventListener("load", async () => {
+  if (window.location.protocol === "file:") {
+    showAlert(
+      "Pour que l'authentification fonctionne correctement, ouvre la page via un serveur local (ex: `python -m http.server`).",
+      "error"
+    );
+    return;
+  }
+
   document.querySelector("#signup-form").addEventListener("submit", handleSignUp);
   document.querySelector("#signin-form").addEventListener("submit", handleSignIn);
   document.querySelector("#signout-btn").addEventListener("click", handleSignOut);
@@ -169,6 +190,16 @@ window.addEventListener("load", async () => {
 
   document.querySelectorAll(".tab").forEach((button) => {
     button.addEventListener("click", () => switchTab(button.getAttribute("data-tab")));
+  });
+
+  document.querySelectorAll(".password-toggle").forEach((button) => {
+    button.addEventListener("click", () => {
+      const input = button.previousElementSibling;
+      if (!input) return;
+      const isPassword = input.type === "password";
+      input.type = isPassword ? "text" : "password";
+      button.innerHTML = isPassword ? '<i class="fa fa-eye-slash"></i>' : '<i class="fa fa-eye"></i>';
+    });
   });
 
   $("#forgot-link").addEventListener("click", (event) => {
