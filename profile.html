@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mon profil · Nyriaa</title>
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <style>
+    body {
+      font-family: 'DM Sans', sans-serif;
+      margin: 0;
+      background: #faf8f3;
+      color: #1a1a1a;
+    }
+
+    nav {
+      padding: 1.5rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      letter-spacing: 0.3em;
+    }
+
+    .container {
+      max-width: 520px;
+      margin: 2.5rem auto;
+      padding: 2rem;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+    }
+
+    h1 {
+      margin-bottom: 0.5rem;
+      font-size: 2rem;
+    }
+
+    .subtitle {
+      margin-top: 0.25rem;
+      color: rgba(26, 26, 26, 0.75);
+    }
+
+    .profile-info {
+      margin-top: 1.5rem;
+      display: grid;
+      gap: 1rem;
+    }
+
+    .profile-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.9rem 1rem;
+      border-radius: 14px;
+      background: rgba(26, 26, 26, 0.04);
+    }
+
+    .profile-row span {
+      font-weight: 600;
+    }
+
+    .badge {
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      background: rgba(164, 148, 196, 0.25);
+      color: #1a1a1a;
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+
+    .actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .actions a,
+    .actions button {
+      border-radius: 999px;
+      padding: 0.9rem 1.4rem;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 1rem;
+      background: #a494c4;
+      color: white;
+      text-decoration: none;
+    }
+
+    .actions button.secondary {
+      background: rgba(26, 26, 26, 0.08);
+      color: #1a1a1a;
+    }
+
+    .alert {
+      padding: 0.75rem 1rem;
+      border-radius: 1rem;
+      margin-bottom: 1rem;
+      display: none;
+      font-size: 0.95rem;
+    }
+
+    .alert--success {
+      background: rgba(129, 192, 151, 0.2);
+      border: 1px solid rgba(129, 192, 151, 0.6);
+      color: #2f5f31;
+    }
+
+    .alert--error {
+      background: rgba(233, 95, 95, 0.15);
+      border: 1px solid rgba(233, 95, 95, 0.6);
+      color: #9b1c1c;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="logo">NYRIAA</div>
+    <a href="index.html" class="secondary">Retour</a>
+  </nav>
+
+  <div class="container">
+    <header>
+      <h1>Mon profil</h1>
+      <p class="subtitle">Bienvenue dans ton espace personnel.</p>
+    </header>
+
+    <div class="alert" id="profile-alert" aria-live="polite"></div>
+
+    <div class="profile-info">
+      <div class="profile-row">
+        <span>Email</span>
+        <span id="profile-email">—</span>
+      </div>
+      <div class="profile-row">
+        <span>Statut</span>
+        <span id="profile-verified" class="badge">—</span>
+      </div>
+      <div class="profile-row">
+        <span>Nom d’utilisateur</span>
+        <span id="profile-username">—</span>
+      </div>
+    </div>
+
+    <div class="actions">
+      <a href="auth.html" class="secondary" id="signout-btn">Se déconnecter</a>
+      <button id="edit-profile">Modifier mon profil</button>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.99.2/dist/umd/supabase.js"></script>
+  <script src="supabase-client.js"></script>
+  <script>
+    const $ = (s) => document.querySelector(s);
+
+    function showAlert(message, type = "success") {
+      const alert = $("#profile-alert");
+      if (!alert) return;
+      alert.textContent = message;
+      alert.className = "alert";
+      alert.classList.add(type === "error" ? "alert--error" : "alert--success");
+      alert.style.display = "block";
+      setTimeout(() => {
+        alert.style.display = "none";
+      }, 5000);
+    }
+
+    async function loadProfile() {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session?.user) {
+        showAlert("Tu dois être connecté pour voir cette page.", "error");
+        setTimeout(() => (window.location.href = "auth.html"), 1200);
+        return;
+      }
+
+      const email = session.user.email || "";
+      $("#profile-email").textContent = email;
+
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("username,is_verified")
+        .eq("user_id", session.user.id)
+        .single();
+
+      $("#profile-username").textContent = profile?.username || "—";
+      const verified = profile?.is_verified ? "Vérifié" : "Non vérifié";
+      const badge = $("#profile-verified");
+      badge.textContent = verified;
+      badge.classList.toggle("badge--ok", profile?.is_verified);
+    }
+
+    async function signOut() {
+      await supabase.auth.signOut();
+      window.location.href = "index.html";
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      loadProfile();
+      $("#signout-btn").addEventListener("click", (event) => {
+        event.preventDefault();
+        signOut();
+      });
+
+      $("#edit-profile").addEventListener("click", () => {
+        showAlert("Fonctionnalité à venir : édition du profil.");
+      });
+    });
+  </script>
+</body>
+</html>

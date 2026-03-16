@@ -45,6 +45,21 @@ async function updateAuthUI() {
 
   if (loggedIn) {
     document.querySelector("#user-email").textContent = session.user.email;
+
+    // Si l'utilisateur n'est pas encore vérifié, on affiche l'étape de vérification.
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("is_verified")
+      .eq("user_id", session.user.id)
+      .single();
+
+    if (profile && !profile.is_verified) {
+      pendingVerification = {
+        userId: session.user.id,
+        email: session.user.email,
+      };
+      showVerificationPanel(session.user.email);
+    }
   }
 }
 
@@ -83,7 +98,9 @@ function hidePopup() {
   $("#success-popup").classList.add("hidden");
 }
 
-async function createProfileIfNotExists(email) {
+let pendingVerification = null;
+
+async function createProfileIfNotExists(email, { force = false } = {}) {
   const { data: { session } } = await supabase.auth.getSession();
   if (!session?.user) return;
 
@@ -91,17 +108,71 @@ async function createProfileIfNotExists(email) {
 
   const { data: existing } = await supabase
     .from("profiles")
-    .select("id")
+    .select("id, is_verified")
     .eq("user_id", userId)
     .single();
 
-  if (existing) return;
+  if (existing && !force) return;
 
-  await supabase.from("profiles").insert({
+  const insertPayload = {
     user_id: userId,
     email,
     username: email.split("@")[0],
+    is_verified: false,
+  };
+
+  if (existing) {
+    await supabase.from("profiles").update(insertPayload).eq("user_id", userId);
+  } else {
+    await supabase.from("profiles").insert(insertPayload);
+  }
+}
+
+function showVerificationPanel(email) {
+  const panel = $("#verification-panel");
+  if (!panel) return;
+
+  $("#verify-email").textContent = email;
+  panel.classList.remove("hidden");
+  $("#signup-form").classList.add("hidden");
+  $("#signin-form").classList.add("hidden");
+  $("#reset-form").classList.add("hidden");
+}
+
+function hideVerificationPanel() {
+  const panel = $("#verification-panel");
+  if (!panel) return;
+
+  panel.classList.add("hidden");
+  $("#signup-form").classList.remove("hidden");
+  $("#signin-form").classList.remove("hidden");
+}
+
+async function sendVerificationCode(userId, email) {
+  // Appelle une Supabase Edge Function pour envoyer un code par email.
+  // Déploie une fonction sur Supabase nommée "send-verification".
+  const { data, error } = await supabase.functions.invoke("send-verification", {
+    body: JSON.stringify({ user_id: userId, email }),
   });
+
+  if (error) {
+    console.warn("Erreur en envoyant le code de vérification", error);
+    throw error;
+  }
+
+  return data;
+}
+
+async function verifyCode(userId, code) {
+  const { data, error } = await supabase.functions.invoke("verify-code", {
+    body: JSON.stringify({ user_id: userId, code }),
+  });
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
 }
 
 async function handleSignUp(event) {
@@ -131,20 +202,39 @@ async function handleSignUp(event) {
     return;
   }
 
-  console.log("Sign up requested", { email, password });
   const { data, error } = await supabase.auth.signUp({ email, password });
-  console.log("Supabase signUp result", { data, error });
-
   if (error) {
     showAlert(error.message, "error");
     return;
   }
 
-  // Crée automatiquement un profil dans la table `profiles`.
-  await createProfileIfNotExists(email);
+  const userId = data?.user?.id;
+  if (!userId) {
+    showAlert(
+      "Impossible de créer ton compte pour le moment. Essaie de nouveau dans quelques minutes.",
+      "error"
+    );
+    return;
+  }
 
-  showPopup();
-  updateAuthUI();
+  // On garde les infos pour la suite de la vérification.
+  pendingVerification = {
+    userId,
+    email,
+    password,
+  };
+
+  // Crée automatiquement un profil dans la table `profiles`.
+  await createProfileIfNotExists(email, { force: true });
+
+  try {
+    await sendVerificationCode(pendingVerification.userId, email);
+    showVerificationPanel(email);
+    showAlert("Un code de vérification a été envoyé. Vérifie ta boîte e-mail.", "success");
+  } catch (err) {
+    showAlert("Impossible d'envoyer le code de vérification. Essaie plus tard.", "error");
+    console.error(err);
+  }
 }
 
 async function handleSignIn(event) {
@@ -161,6 +251,29 @@ async function handleSignIn(event) {
   const { error } = await supabase.auth.signInWithPassword({ email, password });
   if (error) {
     showAlert(error.message, "error");
+    return;
+  }
+
+  // Après connexion, on vérifie si le compte est validé.
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("is_verified")
+    .eq("user_id", session.user.id)
+    .single();
+
+  if (profile && !profile.is_verified) {
+    pendingVerification = {
+      userId: session.user.id,
+      email,
+      password,
+    };
+    await sendVerificationCode(session.user.id, email);
+    showVerificationPanel(email);
+    showAlert("Ton compte n'est pas encore vérifié. Entre le code reçu par email.", "error");
     return;
   }
 
@@ -196,6 +309,50 @@ async function handleResetPassword(event) {
     $("#reset-form").classList.add("hidden");
     $("#signin-form").classList.remove("hidden");
   }
+}
+
+async function handleVerifyCode(event) {
+  event.preventDefault();
+  if (!pendingVerification) return;
+
+  const code = $("#verification-code").value.trim();
+  if (!code) {
+    showAlert("Entre le code de vérification.", "error");
+    return;
+  }
+
+  try {
+    await verifyCode(pendingVerification.userId, code);
+    showAlert("Ton compte est validé ! Redirection...", "success");
+
+    // Reconnexion pour mettre à jour la session et l'état du bouton.
+    await supabase.auth.signInWithPassword({
+      email: pendingVerification.email,
+      password: pendingVerification.password,
+    });
+
+    window.location.href = "index.html";
+  } catch (err) {
+    showAlert(err.message || "Code invalide.", "error");
+  }
+}
+
+async function handleResendCode(event) {
+  event.preventDefault();
+  if (!pendingVerification) return;
+
+  try {
+    await sendVerificationCode(pendingVerification.userId, pendingVerification.email);
+    showAlert("Un nouveau code a été envoyé.", "success");
+  } catch (err) {
+    showAlert("Impossible de renvoyer le code pour le moment.", "error");
+  }
+}
+
+function handleCancelVerification(event) {
+  event.preventDefault();
+  pendingVerification = null;
+  hideVerificationPanel();
 }
 
 window.addEventListener("load", async () => {
@@ -240,6 +397,17 @@ window.addEventListener("load", async () => {
 
   $("#popup-close").addEventListener("click", hidePopup);
   $("#popup-ok").addEventListener("click", hidePopup);
+
+  // Vérification par code
+  if ($("#verify-btn")) {
+    $("#verify-btn").addEventListener("click", handleVerifyCode);
+  }
+  if ($("#resend-code")) {
+    $("#resend-code").addEventListener("click", handleResendCode);
+  }
+  if ($("#cancel-verification")) {
+    $("#cancel-verification").addEventListener("click", handleCancelVerification);
+  }
 
   await updateAuthUI();
 

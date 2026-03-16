@@ -151,6 +151,21 @@
 
           <button type="submit">Créer un compte</button>
         </form>
+
+        <div id="verification-panel" class="hidden">
+          <h2>Vérification du compte</h2>
+          <p>Un code à 6 chiffres a été envoyé à <strong id="verify-email"></strong>. Rentre-le pour activer ton compte.</p>
+
+          <label for="verification-code">Code de vérification</label>
+          <input id="verification-code" type="text" inputmode="numeric" maxlength="6" />
+
+          <button id="verify-btn" class="secondary">Valider le code</button>
+
+          <p class="helper">
+            <a href="#" id="resend-code">Renvoyer le code</a> ·
+            <a href="#" id="cancel-verification">Annuler</a>
+          </p>
+        </div>
       </div>
     </section>
 
@@ -315,5 +330,6 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.99.2/dist/umd/supabase.js"></script>
   <script src="supabase-client.js"></script>
   <script src="auth.js"></script>
+  <script src="nav-auth.js"></script>
 </body>
 </html>
