@@ -24,6 +24,30 @@ window.addEventListener("unhandledrejection", (event) => {
   showAlert(`Erreur JS : ${event.reason}`, "error");
 });
 
+async function updateAuthUI() {
+  const { data: { session }, error } = await supabase.auth.getSession();
+  if (error) {
+    console.error("Supabase session error", error);
+    return;
+  }
+
+  const loggedIn = Boolean(session?.user);
+
+  document.querySelectorAll("[data-auth-when]").forEach((el) => {
+    const when = el.getAttribute("data-auth-when");
+    if (when === "logged-in") {
+      el.style.display = loggedIn ? "" : "none";
+    }
+    if (when === "logged-out") {
+      el.style.display = loggedIn ? "none" : "";
+    }
+  });
+
+  if (loggedIn) {
+    document.querySelector("#user-email").textContent = session.user.email;
+  }
+}
+
 function validateEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
