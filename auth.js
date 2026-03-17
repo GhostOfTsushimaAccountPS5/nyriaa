@@ -149,6 +149,10 @@ function hideVerificationPanel() {
 }
 
 async function sendVerificationCode(userId, email) {
+  if (!userId || !email) {
+    throw new Error("userId ou email manquant pour envoi du code de vérification.");
+  }
+
   // Appelle une Supabase Edge Function pour envoyer un code par email.
   // Déploie une fonction sur Supabase nommée "send-verification".
   const { data, error } = await supabase.functions.invoke("send-verification", {
@@ -157,7 +161,11 @@ async function sendVerificationCode(userId, email) {
 
   if (error) {
     console.warn("Erreur en envoyant le code de vérification", error);
-    throw error;
+    throw new Error(error.message || "Impossible d'envoyer le code de vérification.");
+  }
+
+  if (!data?.ok) {
+    throw new Error("La fonction send-verification a échoué (ok=false).");
   }
 
   return data;
@@ -208,10 +216,20 @@ async function handleSignUp(event) {
     return;
   }
 
-  const userId = data?.user?.id;
+  let userId = data?.user?.id;
+
   if (!userId) {
+    const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+    if (sessionError) {
+      console.error("Session lookup failed", sessionError);
+    }
+    userId = sessionData?.session?.user?.id;
+  }
+
+  if (!userId) {
+    // GitHub Copilot cannot faire du backend ici, donc on explique.
     showAlert(
-      "Impossible de créer ton compte pour le moment. Essaie de nouveau dans quelques minutes.",
+      "Impossible de créer ton compte maintenant (erreur utilisateur). Vérifie id + paramètres Supabase.",
       "error"
     );
     return;

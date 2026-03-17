@@ -67,6 +67,38 @@
       border: 1px solid rgba(26, 26, 26, 0.25);
       color: #1a1a1a;
     }
+
+    .return-link {
+      color: #4b2f7f;
+      font-weight: 700;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(75, 47, 127, 0.35);
+      padding: 0.25rem 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.95rem;
+      transition: color 0.2s ease, transform 0.2s ease;
+    }
+
+    .return-link:before {
+      content: '←';
+      display: inline-block;
+      font-size: 1.05rem;
+      line-height: 1;
+      transform: translateX(-0.15rem);
+    }
+
+    .return-link:hover {
+      color: #6f4fbe;
+      transform: translateY(-1px);
+      border-bottom-color: #6f4fbe;
+    }
+
+    .return-link:active {
+      transform: none;
+    }
+
     .helper {
       font-size: 0.9rem;
       color: rgba(26, 26, 26, 0.7);
@@ -79,7 +111,7 @@
 <body>
   <nav>
     <div class="logo">NYRIAA</div>
-    <a href="index.html" class="secondary">Retour</a>
+    <a href="index.html" class="secondary return-link">Retour</a>
   </nav>
 
   <div class="container">
