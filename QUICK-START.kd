@@ -1,0 +1,131 @@
+# ✅ Checklist Rapide - Configuration Nyriaa Auth
+
+## 📦 Fichiers à uploader dans ton site
+
+```
+ton-site-nyriaa/
+├── auth.html                    ✅ (déjà présent)
+├── auth.js                      ✅ (déjà présent)
+├── profile.html                 ✅ (déjà présent)
+├── supabase-client.js           ⚠️ À CRÉER (voir ci-dessous)
+└── nav-auth.js                  ⚠️ À CRÉER (optionnel)
+```
+
+---
+
+## 🎯 À FAIRE MAINTENANT (dans l'ordre)
+
+### 1. Base de données Supabase
+
+- [ ] Va sur https://supabase.com
+- [ ] Ouvre ton projet Nyriaa
+- [ ] **SQL Editor** → New Query
+- [ ] Copie `supabase-schema/profiles.sql` → Run
+- [ ] New Query
+- [ ] Copie `supabase-schema/verification_codes.sql` → Run
+
+### 2. SendGrid
+
+- [ ] Va sur https://app.sendgrid.com
+- [ ] **Settings** → **API Keys** → Create API Key
+- [ ] Nom : "Nyriaa Verification", Full Access
+- [ ] **COPIE LA CLÉ** (commence par `SG.`)
+- [ ] **Settings** → **Sender Authentication** → Verify a Single Sender
+- [ ] Vérifie ton email (ex: `noreply@nyriaa.com` ou ton email perso)
+- [ ] ⚠️ **IMPORTANT** : Note cet email vérifié !
+
+### 3. Modifier send-verification
+
+- [ ] Ouvre `supabase-functions/send-verification/index.ts`
+- [ ] Ligne 42 : Remplace `"noreply@nyriaa.com"` par ton email vérifié SendGrid
+- [ ] Sauvegarde
+
+### 4. Déployer les Edge Functions
+
+**Option A - Via CLI (recommandé)** :
+```bash
+cd ton-projet
+supabase login
+supabase init
+mkdir -p supabase/functions
+# Copie les dossiers send-verification et verify-code dans supabase/functions/
+supabase functions deploy send-verification --project-ref TON_REF
+supabase functions deploy verify-code --project-ref TON_REF
+```
+
+**Option B - Via Dashboard** :
+- [ ] Supabase → **Edge Functions** → Create function
+- [ ] Nom : `send-verification`
+- [ ] Copie le code de `send-verification/index.ts`
+- [ ] Deploy
+- [ ] Répète pour `verify-code`
+
+### 5. Ajouter la clé SendGrid
+
+- [ ] Supabase → **Settings** → **Edge Functions** → **Secrets**
+- [ ] Add secret :
+  - Nom : `SENDGRID_API_KEY`
+  - Valeur : Ta clé SG.xxx
+- [ ] Save
+
+### 6. Créer supabase-client.js
+
+- [ ] Crée le fichier `supabase-client.js` dans ton site
+- [ ] Supabase → **Settings** → **API**
+- [ ] Copie **Project URL** et **anon public**
+- [ ] Remplace dans le fichier :
+
+```javascript
+const SUPABASE_URL = "https://TON_PROJECT.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGci...TON_ANON_KEY";
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+```
+
+### 7. Vérifier auth.html
+
+- [ ] Vérifie que ces scripts sont bien dans `auth.html` (dans cet ordre) :
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.99.2/dist/umd/supabase.js"></script>
+<script src="supabase-client.js"></script>
+<script src="auth.js"></script>
+<script src="nav-auth.js"></script>
+```
+
+---
+
+## 🧪 TEST
+
+```bash
+# Lance un serveur local
+python -m http.server 8000
+# OU
+npx serve
+```
+
+1. Ouvre http://localhost:8000/auth.html
+2. Inscription avec un vrai email
+3. Vérifie ta boîte mail
+4. Entre le code à 6 chiffres
+5. ✅ Redirection vers index.html
+
+---
+
+## 🐛 Problème ?
+
+Ouvre la console (F12) et regarde les erreurs rouges. Puis :
+
+1. **"supabase is not defined"** → Vérifie l'ordre des scripts
+2. **"Erreur envoi email"** → Vérifie les logs dans Supabase Edge Functions
+3. **Pas d'email reçu** → Vérifie les spams + email vérifié dans SendGrid
+4. **"Code invalide"** → Vérifie la table `verification_codes` dans Supabase
+
+---
+
+## 📚 Documentation complète
+
+Lis `DEPLOYMENT-GUIDE.md` pour tous les détails.
+
+---
+
+Bon courage ! 💜
